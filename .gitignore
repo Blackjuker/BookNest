@@ -1,0 +1,12 @@
+# Visual Studio files
+.vs/
+*.vsidx
+*.user
+*.suo
+
+# Binaires et dossiers de build
+bin/
+obj/
+
+# Dépendances
+node_modules/
