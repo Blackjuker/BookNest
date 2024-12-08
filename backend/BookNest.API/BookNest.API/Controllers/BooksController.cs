@@ -6,6 +6,8 @@ using BookNest.API.Models.Responses;
 using BookNest.API.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace BookNest.API.Controllers
 {
@@ -82,9 +84,49 @@ namespace BookNest.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllBooks()
+        public async Task<IActionResult> GetAllBooks(int? page, int? pageSize = null)
         {
-            return Ok();
+            int totalPages = 0;
+            if(page == null || page < 0)
+            {
+                page = 1;
+            }
+
+            int perpage = 10;
+            if( !(pageSize == null || pageSize < 0))
+            {
+                perpage = (int)pageSize;
+            }
+
+            var books = await _context.Books
+                            .ToListAsync();
+
+            if(books  == null || !books.Any())
+            {
+                return BadRequest(new ResponseBook{
+                    Message = "Aucun Livre"
+                });
+            }
+
+            decimal count = books.Count();
+            totalPages = (int)Math.Ceiling(count / perpage);
+            books = books.Skip((int)(page - 1) * perpage).Take(perpage).ToList();
+
+            List <BookDto> booksDto = new List<BookDto>();
+
+            foreach (var book in books)
+            {
+                booksDto.Add(_bookMapper.BookToBookDto(book));
+            }
+
+            var response = new
+            {
+                TotalPages = totalPages,
+                PageSize = pageSize,
+                Page = page,
+                Books = booksDto
+            };
+            return Ok(response);
         }
 
         [HttpPut]

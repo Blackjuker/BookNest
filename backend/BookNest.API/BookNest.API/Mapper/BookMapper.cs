@@ -8,5 +8,6 @@ namespace BookNest.API.Mapper
     public partial class BookMapper
     {
         public partial Book BookDtoToBook(BookDto bookDto);
+        public partial BookDto BookToBookDto(Book book);
     }
 }
