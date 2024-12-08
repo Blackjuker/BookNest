@@ -4,6 +4,6 @@ namespace BookNest.API.Service
 {
     public interface IFileUpload
     {
-        Task<string> UploadFile(IFormFile file, Guid bookId);
+        Task<string> SaveFileAsync(IFormFile file, Guid bookId);
     }
 }

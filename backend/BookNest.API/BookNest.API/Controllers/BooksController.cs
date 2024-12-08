@@ -3,6 +3,7 @@ using BookNest.API.Mapper;
 using BookNest.API.Models.Domain;
 using BookNest.API.Models.DTO;
 using BookNest.API.Models.Responses;
+using BookNest.API.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,12 @@ namespace BookNest.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly BookMapper _bookMapper;
-        public BooksController(ApplicationDbContext context, BookMapper bookMapper) 
+        private readonly IFileUpload _fileUpload;
+        public BooksController(ApplicationDbContext context, BookMapper bookMapper, IFileUpload fileUpload) 
         {
             _context = context;
             _bookMapper = bookMapper;
+            _fileUpload = fileUpload;
         }
 
         [HttpPost]
@@ -30,7 +33,7 @@ namespace BookNest.API.Controllers
             var bookCount = _context.Books.Count(b => b.Title == bookDto.Title || b.ISBN == bookDto.ISBN);
             if (bookCount > 0)
             {
-                ModelState.AddModelError("message", "Ce livre existe déjà");
+                ModelState.AddModelError("Message", "Ce livre existe déjà");
                 return BadRequest(ModelState);
             }
 
@@ -49,8 +52,34 @@ namespace BookNest.API.Controllers
             };
 
             
-            return Ok();
+            return Ok(response);
         }
+
+        [HttpPost("upload/{bookId}")]
+        public async Task<IActionResult> UploadFile([FromRoute] Guid bookId, /*[FromForm]*/ IFormFile file)
+        {
+            if (file == null)
+            {
+                ModelState.AddModelError("Message", "Fichier non reçu");
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var fileName = await _fileUpload.SaveFileAsync(file, bookId);
+
+                return Ok( new ResponseBook
+                {
+                    Message = "Livre uploader avec success"
+                });
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("Message", "Fichier non reçu : "+ex.ToString());
+                return BadRequest(ModelState);
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllBooks()

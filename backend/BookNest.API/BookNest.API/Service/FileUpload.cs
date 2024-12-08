@@ -4,7 +4,7 @@ namespace BookNest.API.Service
     public class FileUpload : IFileUpload
     {
         private readonly string _uploadDirectory = "Uploads"; // Dossier où les fichiers seront stockés
-        public async Task<string> UploadFile(IFormFile file, Guid bookId)
+        public async Task<string> SaveFileAsync(IFormFile file, Guid bookId)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("Fichier Invalid");
