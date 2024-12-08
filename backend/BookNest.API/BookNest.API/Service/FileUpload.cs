@@ -7,7 +7,7 @@ namespace BookNest.API.Service
         public async Task<string> UploadFile(IFormFile file, Guid bookId)
         {
             if (file == null || file.Length == 0)
-                throw new ArgumentException('Fichier Invalid');
+                throw new ArgumentException("Fichier Invalid");
 
             try
             {
