@@ -5,13 +5,43 @@
     <form #form="ngForm" (ngSubmit)="OnFormSubmit()">
         <div class="mt-2">
             <div class="mt-3">
-                <label for="bookName" class="form-label">Book Name</label>
-                <input type="text" id="bookName" class="form-control" name="bookName" [(ngModel)]="model.name">
+                <label for="bookTitle" class="form-label">Book Name</label>
+                <input type="text" id="bookTitle" class="form-control" name="bookTitle" [(ngModel)]="model.title">
+            </div>
+
+            <div class="mt-3">
+                <label for="bookGenre" class="form-label">Genre</label>
+                <input type="text" id="bookGenre" class="form-control" name="bookGenre" [(ngModel)]="model.genres">
+            </div>
+
+            <div class="mt-3">
+                <label for="bookPublicationYear" class="form-label">Publication Date</label>
+                <input type="number" id="bookPublicationYear" class="form-control" name="bookPublicationYear" [(ngModel)]="model.publicationYear">
+            </div>
+
+            <div class="mt-3">
+                <label for="bookCoverImage" class="form-label">Book Cover Image</label>
+                <input type="text" id="bookCoverImage" class="form-control" name="bookCoverImage" [(ngModel)]="model.coverImage">
+            </div>
+
+            <div class="mt-3">
+                <label for="bookIsVisible" class="form-label">Is Visible</label>
+                <input type="text" id="bookIsVisible" class="form-control" name="bookIsVisible" [(ngModel)]="model.isVisible">
+            </div>
+
+            <div class="mt-3">
+                <label for="bookAuthor" class="form-label">Author</label>
+                <input type="text" id="bookAuthor" class="form-control" name="bookAuthor" [(ngModel)]="model.author">
             </div>
 
             <div class="mt-3">
                 <label for="bookISBN" class="form-label">Book ISBN</label>
-                <input type="text" id="bookISBN" class="form-control" name="bookISBN" [(ngModel)]="model.isbn"]>
+                <input type="text" id="bookISBN" class="form-control" name="bookISBN" [(ngModel)]="model.isbn">
+            </div>
+
+            <div class="mt-3">
+                <label for="bookTotalPages" class="form-label">Total Pages</label>
+                <input type="number" id="bookTotalPages" class="form-control" name="bookTotalPages" [(ngModel)]="model.totalPages">
             </div>
 
             <div class="mt-3">

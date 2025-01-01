@@ -1,0 +1,28 @@
+<div class="container">
+    <h1 class="mt-3">List of Authors</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a [routerLink]="['/admin/authors/add']" class="btn btn-primary">Create Author</a>
+    </div>
+
+    <ng-container *ngIf="authors$ | async as authors">
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>FullName</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let author of authors">
+                    <td>{{author.authorId}}</td>
+                    <td>{{author.name}}</td>
+                    <td>
+                        <a class="btn btn-light" [routerLink]="['/admin/authors',author.authorId]">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+</div>
