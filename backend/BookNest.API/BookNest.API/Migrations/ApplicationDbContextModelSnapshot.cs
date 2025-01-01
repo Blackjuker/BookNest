@@ -34,7 +34,7 @@ namespace BookNest.API.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("Author");
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("BookNest.API.Models.Domain.Book", b =>
@@ -71,6 +71,9 @@ namespace BookNest.API.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPages")
+                        .HasColumnType("int");
 
                     b.HasKey("BookId");
 
@@ -124,10 +127,38 @@ namespace BookNest.API.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("BookNest.API.Models.Domain.UserBookProgress", b =>
+                {
+                    b.Property<Guid>("ProgressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BookId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CurrentPage")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReadingStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ProgressId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("UserBookProgresses");
+                });
+
             modelBuilder.Entity("BookNest.API.Models.Domain.Book", b =>
                 {
                     b.HasOne("BookNest.API.Models.Domain.Author", "Author")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -143,9 +174,15 @@ namespace BookNest.API.Migrations
                     b.Navigation("Genres");
                 });
 
-            modelBuilder.Entity("BookNest.API.Models.Domain.Author", b =>
+            modelBuilder.Entity("BookNest.API.Models.Domain.UserBookProgress", b =>
                 {
-                    b.Navigation("Books");
+                    b.HasOne("BookNest.API.Models.Domain.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
                 });
 #pragma warning restore 612, 618
         }

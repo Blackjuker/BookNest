@@ -83,6 +83,27 @@ namespace BookNest.API.Controllers
         }
 
 
+        [HttpPost("update-progress")]
+        public async Task<IActionResult> UpdateProgress(UserBookProgressDto userBookProgressDto)
+        {
+            var progress = await _context.UserBookProgresses
+                    .FirstOrDefaultAsync(p => p.UserId == userBookProgressDto.UserId && p.Book.BookId == userBookProgressDto.Book.BookId);
+
+            if (progress == null)
+            {
+
+                _context.UserBookProgresses.Add(progress);
+            }
+            else
+            {
+                progress.CurrentPage = userBookProgressDto.CurrentPage;
+                progress.LastUpdate = DateTime.UtcNow;
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(progress);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllBooks(int? page, int? pageSize = null)
         {

@@ -15,5 +15,6 @@ namespace BookNest.API.Models.Domain
         public DateTime CreatedAt { get; set; }
         public bool IsVisible { get; set; }
         public required Author Author { get; set; }
+        public int TotalPages { get; set; }
     }
 }

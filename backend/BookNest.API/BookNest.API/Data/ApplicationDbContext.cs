@@ -11,5 +11,7 @@ namespace BookNest.API.Data
 
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<UserBookProgress> UserBookProgresses { get; set; }
     }
 }
