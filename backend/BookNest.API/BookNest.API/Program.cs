@@ -16,6 +16,7 @@ builder.Services.AddTransient<BookMapper>();
 builder.Services.AddTransient<AuthorMapper>();
 
 builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+builder.Services.AddTransient<IBookRepository, BookRepository>();
 builder.Services.AddTransient<IFileUpload, FileUpload>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
