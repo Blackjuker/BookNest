@@ -98,9 +98,19 @@ namespace BookNest.API.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [ProducesResponseType(typeof(AuthorDto),200)]
         public async Task<IActionResult> DeleteAuthor([FromRoute] Guid id)
         {
-            
+            var author = await _authorRepository.DeleteAsync(id);
+
+            if (author is null)
+            {
+                return NotFound();
+            }
+
+            // Convert Domain to DTO
+            var response = _authorMapper.AthorToAuthorDto(author);
+            return Ok(response);
         }
 
 

@@ -27,8 +27,8 @@ namespace BookNest.API.Repositories.Implementation
                 return null;
             }
 
-           _dbContext.Authors.Remove(existingCategory);
-           await _dbContext.SaveChangesAsync();
+            _dbContext.Authors.Remove(existingCategory);
+            await _dbContext.SaveChangesAsync();
 
             return existingCategory;
         }
@@ -52,7 +52,6 @@ namespace BookNest.API.Repositories.Implementation
                 await _dbContext.SaveChangesAsync();
                 return existingAuthor;
             }
-
             return null;
         }
     }
